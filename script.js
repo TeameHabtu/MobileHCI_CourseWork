@@ -72,11 +72,11 @@ document.addEventListener('DOMContentLoaded', function () {
             });
 
             el.addEventListener('swipe-success', function (event) {
-                speechInputText.innerText = 'Swiped Speech Input Fellows';
+                speechInputText.innerText = 'Swiped! Speech Input Fellows';
                 setTimeout(function () {
                     el.setAttribute('speech-overlay', '');
                     speechTrials = 0;
-                }, 2000);
+                }, 1000);
             });
 
             el.addEventListener('touchstart', function(event){
