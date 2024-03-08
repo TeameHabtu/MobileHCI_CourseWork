@@ -57,15 +57,29 @@ document.addEventListener('DOMContentLoaded', function () {
             });
 
             el.addEventListener('speech-not-recognized', function (event) {
-                // Handle speech not recognized
-                recognitionTimeout = setTimeout(function () {
-                    hideOverlay();
-                }, 7000);
-                speechInputText.innerText = 'Speech Not Recognized. Try Again.';
+                speechTrials++;
+                if (speechTrials < 3) {
+                    speechInputText.innerText = 'Try Again';
+                } else {
+                    recognitionTimeout = setTimeout(function () {
+                        hideOverlay();
+                        el.removeAttribute('speech-overlay');
+                    }, 7000);
+                    el.removeAttribute('speech-overlay');
+                    el.removeAttribute('gesture-detector');
+                    showAllButtons();
+                }
+            });
+
+            el.addEventListener('swipe-success', function (event) {
+                speechInputText.innerText = 'Swiped! Speech Input Fellows';
+                setTimeout(function () {
+                    el.setAttribute('speech-overlay', '');
+                    speechTrials = 0;
+                }, 1000);
             });
 
             el.addEventListener('touchstart', function(event){
-                // Hide overlay on touch
                 clearTimeout(recognitionTimeout);
                 hideOverlay();
             });
@@ -74,9 +88,19 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function showOverlay() {
         overlay.setAttribute('visible', true);
+        setTimeout(function () {
+            hideOverlay();
+        }, 7000); // Hide overlay after 7 seconds
     }
 
     function hideOverlay() {
         overlay.setAttribute('visible', false);
+    }
+
+    function showAllButtons() {
+        var buttons = document.querySelectorAll('.button');
+        buttons.forEach(function(button) {
+            button.setAttribute('visible', true);
+        });
     }
 });

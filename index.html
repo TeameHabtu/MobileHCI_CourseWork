@@ -14,6 +14,7 @@
     <div id="speechInputText"></div>
     <a-scene embedded arjs="sourceType: webcam;">
         <a-assets>
+            <!-- Define images for buttons and overlays -->
             <img id="cook" src="https://cdn.glitch.global/c9accb86-951a-4534-b96f-84964f34a8d2/Cook.jpg?v=1708399021745">
             <img id="call" src="https://cdn.glitch.global/2cd4ffad-ef10-4b90-82c1-0550f99b9dee/call.jpg?v=1708399047886">
             <img id="emergency" src="https://cdn.glitch.global/2cd4ffad-ef10-4b90-82c1-0550f99b9dee/Emrgcycall.jpg?v=1708399025869">
@@ -21,41 +22,48 @@
             <img id="whrami" src="https://cdn.glitch.global/eeff0b26-9f30-428b-bcbd-920bbe394fa4/WhrAmI.jpg?v=1708399122257">
             <img id="door" src="https://cdn.glitch.global/a8ce429a-54d7-46cb-9b8d-755c39e1d6f6/door.jpg?v=1708610568058">
           
-          
-            <img id="overlay1" src="https://cdn.glitch.global/eeff0b26-9f30-428b-bcbd-920bbe394fa4/cookdisplay.png?v=1708454">
+        </a-assets>
+
+        <!-- Define buttons and overlays -->
+           <img id="overlay1" src="https://cdn.glitch.global/eeff0b26-9f30-428b-bcbd-920bbe394fa4/cookdisplay.png?v=1708454">
             <img id="overlay2" src="https://cdn.glitch.global/eeff0b26-9f30-428b-bcbd-920bbe394fa4/callimage.png?v=17084565">
             <img id="overlay3" src="https://cdn.glitch.global/eeff0b26-9f30-428b-bcbd-920bbe394fa4/emrgcycallimage.png?v=1708456989786">
             <img id="overlay4" src="https://cdn.glitch.global/eeff0b26-9f30-428b-bcbd-920bbe394fa4/WhrAmImage.jpg?v=170845">
             <img id="dooroverlay" src="https://cdn.glitch.global/eeff0b26-9f30-428b-bcbd-920bbe394fa4/doorimage.jpg?v=1708399102503">
             <img id="walkoverlay1" src="https://cdn.glitch.global/cd61aead-1bac-43b8-8c65-50e2c36ee745/keepwalkingimage.jpg?v=1708457700747">
             <img id="walkoverlay2" src="https://cdn.glitch.global/eeff0b26-9f30-428b-bcbd-920bbe394fa4/stopwalkingimage.png?v=1708456799791">
-        </a-assets>
-
-        <a-mixin id="button-mixin" geometry="primitive: plane"></a-mixin>
-    
-        <a-entity class="button swipeable" position="-1.5 2 -5" mixin="button-mixin" material="src: #door"
-                  speech-command="command: open door; action: trigger" gesture-detector>
-            <a-text value="Swipe Right" position="0 -0.5 0" align="center"></a-text>
+      
+        <a-entity id="buttons">
+            <!-- Swipeable Buttons -->
+            <a-entity class="button swipeable" position="1.5 3 -5" mixin="button-mixin" material="src: #cook" speech-command="command: button cook; action: trigger" gesture-detector data-swipe-direction="down">
+                <a-text value="Swipe Down" position="0 -0.5 0" align="center"></a-text>
+            </a-entity>
+            <a-entity class="button swipeable" position="0 3 -5" mixin="button-mixin" material="src: #call" speech-command="command: button call; action: trigger" gesture-detector data-swipe-direction="down">
+                <a-text value="Swipe Down" position="0 -0.5 0" align="center"></a-text>
+            </a-entity>
+            <a-entity class="button swipeable" position="-1.5 -0.5 -5" mixin="button-mixin" material="src: #whrami" gesture-detector>
+                <a-text value="Swipe Right" position="0 -0.5 0" align="center"></a-text>
+            </a-entity>
+            <a-entity class="button swipeable" position="-1.5 0.75 -5" mixin="button-mixin" material="src: #walking" gesture-detector>
+                <a-text value="Swipe Right" position="0 -0.5 0" align="center"></a-text>
+            </a-entity>
+            <a-entity class="button swipeable" position="-1.5 2 -5" mixin="button-mixin" material="src: #door"
+                      speech-command="command: open door; action: trigger" gesture-detector>
+                <a-text value="Swipe Right" position="0 -0.5 0" align="center"></a-text>
+            </a-entity>
         </a-entity>
 
-        <!-- Swipeable Buttons -->
-        <a-entity class="button swipeable" position="1.5 3 -5" mixin="button-mixin" material="src: #cook" speech-command="command: button cook; action: trigger" gesture-detector data-swipe-direction="down">
-            <a-text value="Swipe Down" position="0 -0.5 0" align="center"></a-text>
-        </a-entity>
-        <a-entity class="button swipeable" position="0 3 -5" mixin="button-mixin" material="src: #call" speech-command="command: button call; action: trigger" gesture-detector data-swipe-direction="down">
-            <a-text value="Swipe Down" position="0 -0.5 0" align="center"></a-text>
-        </a-entity>
-  
-        <a-entity class="button swipeable" position="-1.5 -0.5 -5" mixin="button-mixin" material="src: #whrami" gesture-detector>
-            <a-text value="Swipe Right" position="0 -0.5 0" align="center"></a-text>
-        </a-entity>
-        <a-entity class="button swipeable" position="-1.5 0.75 -5"   mixin="button-mixin" material="src: #walking" gesture-detector>
-            <a-text value="Swipe Right" position="0 -0.5 0" align="center"></a-text>
-        </a-entity>
-
-        <a-entity id="overlay" position="0 0 -15" visible="false" geometry="primitive: plane; width: 10; height: 10"></a-entity>
+        <a-entity id="overlay" position="0 0 -15" visible="false" geometry="primitive: plane; width: 4; height: 4"></a-entity>
     
         <a-sky color="#518CC9"></a-sky>
     </a-scene>
 </body>
 </html>
+
+
+
+
+
+
+
+     
