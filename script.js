@@ -1,3 +1,4 @@
+
 document.addEventListener('DOMContentLoaded', function () {
     var speechInputText = document.getElementById('speechInputText');
     var overlay = document.getElementById('overlay');
