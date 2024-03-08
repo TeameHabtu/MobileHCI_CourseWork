@@ -1,4 +1,3 @@
-
 document.addEventListener('DOMContentLoaded', function () {
     var speechInputText = document.getElementById('speechInputText');
     var overlay = document.getElementById('overlay');
@@ -12,7 +11,6 @@ document.addEventListener('DOMContentLoaded', function () {
             this.startPosition = { x: 0, y: 0 };
             this.touchStartHandler = this.touchStartHandler.bind(this);
             this.touchEndHandler = this.touchEndHandler.bind(this);
-            this.swipeSequence = []; // Array to store swipe sequence
             this.el.addEventListener('touchstart', this.touchStartHandler);
             this.el.addEventListener('touchend', this.touchEndHandler);
         },
@@ -43,14 +41,20 @@ document.addEventListener('DOMContentLoaded', function () {
     AFRAME.registerComponent('speech-overlay', {
         init: function () {
             var el = this.el;
-            var speechTrials = 0;
             var recognitionTimeout;
 
+            el.addEventListener('swipe-success', function (event) {
+                // Display overlay when swipe is successful
+                showOverlay();
+            });
+
             el.addEventListener('speech-command', function (event) {
+                // Recognize speech command
                 clearTimeout(recognitionTimeout);
                 var command = event.detail.command;
                 speechInputText.innerText = 'Recognized Command: ' + command;
-                showOverlay(); // Display overlay when speech command is recognized
+                // Hide overlay after command recognition
+                hideOverlay();
             });
 
             el.addEventListener('speech-ready', function (event) {
@@ -58,29 +62,15 @@ document.addEventListener('DOMContentLoaded', function () {
             });
 
             el.addEventListener('speech-not-recognized', function (event) {
-                speechTrials++;
-                if (speechTrials < 3) {
-                    speechInputText.innerText = 'Try Again';
-                } else {
-                    recognitionTimeout = setTimeout(function () {
-                        hideOverlay();
-                        el.removeAttribute('speech-overlay');
-                    }, 7000);
-                    el.removeAttribute('speech-overlay');
-                    el.removeAttribute('gesture-detector');
-                    showAllButtons();
-                }
-            });
-
-            el.addEventListener('swipe-success', function (event) {
-                speechInputText.innerText = 'Swiped! Speech Input Fellows';
-                setTimeout(function () {
-                    el.setAttribute('speech-overlay', '');
-                    speechTrials = 0;
-                }, 1000);
+                // Handle speech not recognized
+                recognitionTimeout = setTimeout(function () {
+                    hideOverlay();
+                }, 7000);
+                speechInputText.innerText = 'Speech Not Recognized. Try Again.';
             });
 
             el.addEventListener('touchstart', function(event){
+                // Hide overlay on touch
                 clearTimeout(recognitionTimeout);
                 hideOverlay();
             });
@@ -89,19 +79,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function showOverlay() {
         overlay.setAttribute('visible', true);
-        setTimeout(function () {
-            hideOverlay();
-        }, 7000); // Hide overlay after 7 seconds
     }
 
     function hideOverlay() {
         overlay.setAttribute('visible', false);
-    }
-
-    function showAllButtons() {
-        var buttons = document.querySelectorAll('.button');
-        buttons.forEach(function(button) {
-            button.setAttribute('visible', true);
-        });
     }
 });

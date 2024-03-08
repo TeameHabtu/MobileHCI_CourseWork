@@ -1,8 +1,3 @@
-@keyframes buttonHover {
-    from { opacity: 1; }
-    to { opacity: 0.8; }
-}
-
 #speechInputText {
     position: absolute;
     top: 20px;
@@ -10,4 +5,12 @@
     font-size: 24px;
     color: white;
     z-index: 1000;
+}
+
+.swipeable {
+    cursor: pointer;
+}
+
+.swipeable:hover {
+    opacity: 0.8;
 }
