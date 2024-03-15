@@ -1,8 +1,10 @@
+/* Button hover animation */
 @keyframes buttonHover {
     from { opacity: 1; }
     to { opacity: 0.8; }
 }
 
+/* Speech input text */
 #speechInputText {
     position: absolute;
     top: 20px;
@@ -10,4 +12,14 @@
     font-size: 24px;
     color: white;
     z-index: 1000;
+}
+
+/* Button styles */
+.button {
+    cursor: pointer;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.button:hover {
+    opacity: 0.8;
 }
