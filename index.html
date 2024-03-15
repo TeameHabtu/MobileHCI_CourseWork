@@ -13,13 +13,6 @@
 <body>
     <div id="speechInputText"></div>
      <a-scene id="arScene" embedded arjs="sourceType: webcam;" style="display: none;">
-        <!-- Button with speech command and gesture detection -->
-      
-        <a-entity class="button swipeable" position="-1.5 2 -5" mixin="button-mixin" material="src: #talk"
-                  speech-command="walk time; action: trigger" gesture-detector>
-            <a-text value="Swipe Right" position="0 -0.5 0" align="center"></a-text>
-        </a-entity>
-
         <!-- Swipeable Buttons -->
         <!-- Buttons for which only overlay is displayed upon swipe gestures -->
               
@@ -47,9 +40,12 @@
         <a-entity class="button swipeable" position="-1.5 -0.5 -5" mixin="button-mixin" material="src: #whrami" gesture-detector>
             <a-text value="Swipe Right" position="0 -0.5 0" align="center"></a-text>
         </a-entity>
+        <a-entity class="button swipeable" position="-1.5 2 -5" mixin="button-mixin" material="src: #door" gesture-detector>
+            <a-text value="Swipe Right" position="0 -0.5 0" align="center"></a-text>
+        </a-entity>
 
         <!-- Button with speech command, gesture detection, and overlay display -->
-        <a-entity id="walkingButton" class="button swipeable" position="-1.5 0.75 -5" mixin="button-mixin" material="src: #walking" speech-command="command: start walk; action: trigger" gesture-detector>
+        <a-entity id="walkingButton" class="button swipeable" position="-1.5 0.75 -5" mixin="button-mixin" material="src: #talk" speech-command="command: walk time; action: trigger" gesture-detector>
             <a-text value="Swipe Right" position="0 -0.5 0" align="center"></a-text>
         </a-entity>
 
