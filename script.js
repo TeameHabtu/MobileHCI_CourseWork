@@ -3,9 +3,10 @@ document.addEventListener('DOMContentLoaded', function () {
     var overlay = document.getElementById('overlay');
     var speechButton = document.getElementById('speechButton');
     var swipeableButtons = document.querySelectorAll('.button.swipeable');
-
-    var speechRecognition;
-
+  
+    var SpeechRecognition = window.webkitSpeechRecognition || window.SpeechRecognition;
+    var speechRecognition = new SpeechRecognition();
+  
     // Function to start speech recognition
     function startSpeechRecognition() {
         if ('webkitSpeechRecognition' in window) {
