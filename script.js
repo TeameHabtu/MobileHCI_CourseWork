@@ -1,10 +1,11 @@
 document.addEventListener('DOMContentLoaded', function () {
     var speechInputText = document.getElementById('speechInputText');
+    var arScene = document.getElementById('arScene');
+    var speechInputText = document.getElementById('speechInputText');
     var overlay = document.getElementById('overlay');
-    var talkButton = document.getElementById('walkingButton'); // Change to the ID of the button that uses speech input
+    
 
-    // Define a flag to track if the camera has been initialized
-    var cameraInitialized = false;
+  
 
     // Define a flag to track if speech input is in progress
     var speechInProgress = false;
