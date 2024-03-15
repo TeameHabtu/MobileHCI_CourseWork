@@ -43,21 +43,16 @@
             </a-entity>
            </a-entity>
     </a-scene>
-       <!-- Scene for buttons with speech input -->
-    <a-scene id="speechScene" embedded arjs="sourceType: webcam;">
-        <a-assets>
-             <img id="walkoverlay2" src="https://cdn.glitch.global/eeff0b26-9f30-428b-bcbd-920bbe394fa4/stopwalkingimage.png?v=1708456799791" style="display: none;">
-         </a-assets>
-        <a-entity id="button_speech">
-            <!-- Swipeable Button for Speech Input -->
-          <a-entity id="talkButton" class="button swipeable talkable" position="-1.5 0.75 -5" mixin="button-mixin" material="src: #walking" gesture-detector>
-                <a-text value="Swipe Right" position="0 -0.5 0" align="center"></a-text>
-           </a-entity>
-      </a-entity>
-    </a-scene>
-        <a-entity id="overlay" position="0 0 -15" visible="false" geometry="primitive: plane; width: 4; height: 4"></a-entity>
+     <!-- Scene for buttons with speech input -->
+<a-scene id="speechScene" embedded>
+    <a-entity id="button">
+        <!-- Swipeable Button with Speech Input -->
+        <a-entity id="talkButton" class="button swipeable talkable" position="-2 0 -5" mixin="button-mixin" gesture-detector speech-recognition="commands: walk time">
+            <a-text value="Swipe Right for Speech Input" position="0 -0.5 0" align="center"></a-text>
+        </a-entity>
+    </a-entity>
+</a-scene>
+
     
-        <a-sky color="#518CC9"></a-sky>
-    </a-scene>
-</body>
+  </body>
 </html>
