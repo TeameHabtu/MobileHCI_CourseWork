@@ -1,87 +1,51 @@
 document.addEventListener('DOMContentLoaded', function () {
     var speechInputText = document.getElementById('speechInputText');
     var overlay = document.getElementById('overlay');
-    var talkButton = document.getElementById('talkButton');
+    var speechButton = document.getElementById('speechButton');
+    var swipeableButtons = document.querySelectorAll('.button.swipeable');
 
-    // Define a flag to track if the camera has been initialized
-    var cameraInitialized = false;
+    var speechRecognition;
 
-    // Define a flag to track if speech input is in progress
-    var speechInProgress = false;
-
-    // Define a counter to track the number of speech recognition trials
-    var speechTrials = 0;
-
-    // Function to initialize the camera or AR.js
-    function initializeCamera() {
-        if (!cameraInitialized) {
-            // Initialize the camera or AR.js here
-            cameraInitialized = true;
-        }
-    }
-
-    // Function to activate speech input interface
-   function activateSpeechInput() {
-    speechInProgress = true;
-    speechInputText.innerText = 'Waiting for speech...';
-    // Simulate speech recognition process
-    setTimeout(function() {
-        var recognized = Math.random() < 0.5; // Simulate recognition
-        if (recognized) {
-            var command = ""; // Assuming the recognized speech command is stored in a variable named "command"
-            if (command === "walk time") {
-                speechInputText.innerText = 'Ok! Be ready';
-            }
+    // Function to start speech recognition
+    function startSpeechRecognition() {
+        if ('webkitSpeechRecognition' in window) {
+            speechRecognition = new webkitSpeechRecognition();
+            speechRecognition.lang = 'en-US';
+            speechRecognition.onresult = function(event) {
+                var result = event.results[0][0].transcript;
+                handleSpeechRecognition(result);
+            };
+            speechRecognition.start();
+            speechInputText.innerText = 'Listening...';
         } else {
-            speechTrials++;
-            if (speechTrials < 3) {
-                speechInputText.innerText = 'Try again';
-            } else {
-                speechInputText.innerText = 'No more trials allowed';
-                // Reset speech input state after timeout
-                setTimeout(function() {
-                    speechInProgress = false;
-                    speechTrials = 0;
-                    talkButton.addEventListener('click', handleSwipe);
-                }, 3000);
-            }
-        }
-    }, 2000); // Simulated speech recognition delay
-}
-
-
-    // Event listener for swipe success and speech command for the talk button
-    function handleSwipe() {
-        if (!speechInProgress) {
-            initializeCamera(); // Initialize camera only when swiping the talk button
-            activateSpeechInput();
-            // Additional code for speech recognition
-            // Display overlay when speech command is recognized
-            showOverlay();
+            console.error('Speech recognition is not supported in this browser.');
         }
     }
 
-    talkButton.addEventListener('click', handleSwipe);
-
-    // Function to display overlay
-    function showOverlay() {
-        overlay.setAttribute('visible', true);
-        setTimeout(function () {
-            hideOverlay();
-        }, 7000); // Hide overlay after 7 seconds
+    // Function to handle speech recognition result
+    function handleSpeechRecognition(result) {
+        speechInputText.innerText = 'Speech Recognized: ' + result;
+        // Handle the recognized speech here
     }
 
-    // Function to hide overlay
-    function hideOverlay() {
-        overlay.setAttribute('visible', false);
-    }
+    // Event listener for speech button
+    speechButton.addEventListener('click', function() {
+        startSpeechRecognition();
+    });
 
-    // Event listener for swipe gestures for all buttons except the talk button
-    var swipeableButtons = document.querySelectorAll('.button.swipeable:not(.talkable)');
+    // Event listener for swipe gestures for all buttons
     swipeableButtons.forEach(function(button) {
         button.addEventListener('click', function() {
             // Additional code for swipe gesture
             showOverlay();
         });
     });
+
+    // Function to show overlay
+    function showOverlay() {
+        overlay.setAttribute('visible', true);
+        setTimeout(function () {
+            overlay.setAttribute('visible', false);
+        }, 7000); // Hide overlay after 7 seconds
+    }
 });
