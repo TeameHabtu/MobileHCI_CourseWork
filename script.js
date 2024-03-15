@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', function () {
     var speechInputText = document.getElementById('speechInputText');
     var overlay = document.getElementById('overlay');
-    var talkButton = document.getElementById('talkButton');
+    var talkButton = document.getElementById('walkingButton'); // Change to the ID of the button that uses speech input
 
     // Define a flag to track if the camera has been initialized
     var cameraInitialized = false;
@@ -51,10 +51,8 @@ document.addEventListener('DOMContentLoaded', function () {
         if (!speechInProgress) {
             initializeCamera(); // Initialize camera only when swiping the talk button
             activateSpeechInput();
-            // Additional code for speech recognition
-            // Display overlay when speech command is recognized
-            showOverlay();
         }
+        // Additional code for speech recognition
     }
 
     talkButton.addEventListener('click', handleSwipe);
@@ -73,11 +71,49 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // Event listener for swipe gestures for all buttons except the talk button
-    var swipeableButtons = document.querySelectorAll('.button.swipeable:not(.talkable)');
+    var swipeableButtons = document.querySelectorAll('.button.swipeable');
     swipeableButtons.forEach(function(button) {
         button.addEventListener('click', function() {
             // Additional code for swipe gesture
             showOverlay();
         });
+    });
+
+    // Gesture detector component for swipeable buttons
+    AFRAME.registerComponent('gesture-detector', {
+        schema: {
+            swipeDistance: { default: 0.25 },
+            swipeDirection: { default: 'right' }
+        },
+        init: function() {
+            this.startPosition = { x: 0, y: 0 };
+            this.touchStartHandler = this.touchStartHandler.bind(this);
+            this.touchEndHandler = this.touchEndHandler.bind(this);
+            this.swipeSequence = []; // Array to store swipe sequence
+            this.el.addEventListener('touchstart', this.touchStartHandler);
+            this.el.addEventListener('touchend', this.touchEndHandler);
+        },
+        touchStartHandler: function(event) {
+            this.startPosition.x = event.touches[0].pageX;
+            this.startPosition.y = event.touches[0].pageY;
+        },
+        touchEndHandler: function(event) {
+            var endX = event.changedTouches[0].pageX;
+            var endY = event.changedTouches[0].pageY;
+            var deltaX = endX - this.startPosition.x;
+            var deltaY = endY - this.startPosition.y;
+            var distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+            var swipeDirection = this.data.swipeDirection;
+            
+            if (distance > this.data.swipeDistance * window.innerWidth) {
+                if (swipeDirection === 'down' && deltaY > 0) {
+                    // Swipe Down
+                    this.el.emit('swipe-success');
+                } else if (swipeDirection === 'right' && deltaX > 0) {
+                    // Swipe Right
+                    this.el.emit('swipe-success');
+                }
+            }
+        }
     });
 });
