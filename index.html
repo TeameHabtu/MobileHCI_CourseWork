@@ -3,38 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AR.js Speech Input</title>
+    <title>Speech Input</title>
     <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
     <script src="https://cdn.rawgit.com/jeromeetienne/AR.js/2.0.8/aframe/build/aframe-ar.js"></script>
     <script src="https://cdn.rawgit.com/borismus/speechcommands/master/dist/aframe-speech-recognition-component.js"></script>
     <script src="script.js" defer></script>
     <link rel="stylesheet" href="styles.css">
-</head>
 <body>
     <div id="speechInputText"></div>
-    <a-scene embedded arjs="sourceType: webcam;">
+    <a-scene embedded>
         <a-assets>
             <!-- Define images for buttons and overlays -->
-            <img id="overlayImage" src="https://cdn.glitch.global/c9accb86-951a-4534-b96f-84964f34a8d2/Cook.jpg?v=1708399021745">
+            <img id="cook" src="https://cdn.glitch.global/c9accb86-951a-4534-b96f-84964f34a8d2/Cook.jpg?v=1708399021745">
+            <img id="call" src="https://cdn.glitch.global/2cd4ffad-ef10-4b90-82c1-0550f99b9dee/call.jpg?v=1708399047886">
+            <img id="emergency" src="https://cdn.glitch.global/2cd4ffad-ef10-4b90-82c1-0550f99b9dee/Emrgcycall.jpg?v=1708399025869">
+            <img id="walking" src="https://cdn.glitch.global/eeff0b26-9f30-428b-bcbd-920bbe394fa4/keepwalking.jpg?v=1708457031864">
+            <img id="whrami" src="https://cdn.glitch.global/eeff0b26-9f30-428b-bcbd-920bbe394fa4/WhrAmI.jpg?v=1708399122257">
+            <img id="door" src="https://cdn.glitch.global/a8ce429a-54d7-46cb-9b8d-755c39e1d6f6/door.jpg?v=1708610568058">
         </a-assets>
 
-        <!-- Define buttons -->
+        <!-- Define buttons and overlays -->
         <a-entity id="buttons">
             <!-- Swipeable Buttons -->
-            <a-entity class="button swipeable" position="1.5 3 -5" material="src: #overlayImage" gesture-detector data-swipe-direction="down">
+            <a-entity class="button swipeable" position="1.5 3 -5" mixin="button-mixin" material="src: #cook" gesture-detector data-swipe-direction="down">
                 <a-text value="Swipe Down" position="0 -0.5 0" align="center"></a-text>
             </a-entity>
-            <a-entity class="button swipeable" position="0 3 -5" material="src: #overlayImage" gesture-detector data-swipe-direction="down">
+            <a-entity class="button swipeable" position="0 3 -5" mixin="button-mixin" material="src: #call" gesture-detector data-swipe-direction="down">
                 <a-text value="Swipe Down" position="0 -0.5 0" align="center"></a-text>
             </a-entity>
-            <a-entity class="button swipeable" position="-1.5 -0.5 -5" material="src: #overlayImage" gesture-detector>
+            <a-entity class="button swipeable" position="-1.5 -0.5 -5" mixin="button-mixin" material="src: #whrami" gesture-detector>
                 <a-text value="Swipe Right" position="0 -0.5 0" align="center"></a-text>
             </a-entity>
-            <a-entity class="button swipeable" position="-1.5 2 -5" material="src: #overlayImage" gesture-detector>
+            <a-entity class="button swipeable" position="-1.5 2 -5" mixin="button-mixin" material="src: #door" gesture-detector>
                 <a-text value="Swipe Right" position="0 -0.5 0" align="center"></a-text>
             </a-entity>
             <!-- Speech Button -->
-            <a-entity id="talkButton" class="button swipeable talkable" position="-1.5 0.75 -5" gesture-detector>
+            <a-entity class="button swipeable speech-button" position="-1.5 0.75 -5" mixin="button-mixin" material="src: #walking" speech-overlay gesture-detector>
                 <a-text value="Swipe Right" position="0 -0.5 0" align="center"></a-text>
             </a-entity>
         </a-entity>
@@ -43,5 +47,8 @@
     
         <a-sky color="#518CC9"></a-sky>
     </a-scene>
-</body>
+
+    <script src="scripts.js"></script>
+  </body>
+  </head>
 </html>
