@@ -1,106 +1,72 @@
 document.addEventListener('DOMContentLoaded', function () {
     var speechInputText = document.getElementById('speechInputText');
     var overlay = document.getElementById('overlay');
+    var talkableButton = document.querySelector('.button.talkable');
+    var swipeableButtons = document.querySelectorAll('.button.swipeable');
 
-    AFRAME.registerComponent('gesture-detector', {
-        schema: {
-            swipeDistance: { default: 0.25 },
-            swipeDirection: { default: 'right' }
-        },
-        init: function() {
-            this.startPosition = { x: 0, y: 0 };
-            this.touchStartHandler = this.touchStartHandler.bind(this);
-            this.touchEndHandler = this.touchEndHandler.bind(this);
-            this.swipeSequence = []; // Array to store swipe sequence
-            this.el.addEventListener('touchstart', this.touchStartHandler);
-            this.el.addEventListener('touchend', this.touchEndHandler);
-        },
-        touchStartHandler: function(event) {
-            this.startPosition.x = event.touches[0].pageX;
-            this.startPosition.y = event.touches[0].pageY;
-        },
-        touchEndHandler: function(event) {
-            var endX = event.changedTouches[0].pageX;
-            var endY = event.changedTouches[0].pageY;
-            var deltaX = endX - this.startPosition.x;
-            var deltaY = endY - this.startPosition.y;
-            var distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
-            var swipeDirection = this.data.swipeDirection;
-            
-            if (distance > this.data.swipeDistance * window.innerWidth) {
-                if (swipeDirection === 'down' && deltaY > 0) {
-                    // Swipe Down
-                    this.el.emit('swipe-success');
-                } else if (swipeDirection === 'right' && deltaX > 0) {
-                    // Swipe Right
-                    this.el.emit('swipe-success');
-                }
-            }
+    // Define a flag to track if the camera has been initialized
+    var cameraInitialized = false;
+
+    // Define a flag to track if speech input is in progress
+    var speechInProgress = false;
+
+    // Define a counter to track the number of speech recognition trials
+    var speechTrials = 0;
+
+    // Function to initialize the camera or AR.js
+    function initializeCamera() {
+        if (!cameraInitialized) {
+            // Initialize the camera or AR.js here
+            cameraInitialized = true;
         }
-    });
+    }
 
-    AFRAME.registerComponent('speech-overlay', {
-        init: function () {
-            var el = this.el;
-            var speechTrials = 0;
-            var recognitionTimeout;
-
-            el.addEventListener('speech-command', function (event) {
-                clearTimeout(recognitionTimeout);
-                var command = event.detail.command;
-                speechInputText.innerText = 'Recognized Command: ' + command;
-                showOverlay(); // Display overlay when speech command is recognized
-            });
-
-            el.addEventListener('speech-ready', function (event) {
-                speechInputText.innerText = 'Speak Now...';
-            });
-
-            el.addEventListener('speech-not-recognized', function (event) {
+    // Function to activate speech input interface
+    function activateSpeechInput() {
+        speechInProgress = true;
+        speechInputText.innerText = 'Waiting for speech...';
+        // Simulate speech recognition process
+        setTimeout(function() {
+            var recognized = Math.random() < 0.5; // Simulate recognition
+            if (recognized) {
+                speechInputText.innerText = 'Recognized';
+            } else {
                 speechTrials++;
                 if (speechTrials < 3) {
-                    speechInputText.innerText = 'Try Again';
+                    speechInputText.innerText = 'Try again';
                 } else {
-                    recognitionTimeout = setTimeout(function () {
-                        hideOverlay();
-                        el.removeAttribute('speech-overlay');
-                    }, 7000);
-                    el.removeAttribute('speech-overlay');
-                    el.removeAttribute('gesture-detector');
-                    showAllButtons();
+                    speechInputText.innerText = 'No more trials allowed';
+                    // Reset speech input state after timeout
+                    setTimeout(function() {
+                        speechInProgress = false;
+                        speechTrials = 0;
+                        talkableButton.addEventListener('click', handleSpeechSwipe);
+                    }, 3000);
                 }
-            });
+            }
+        }, 2000); // Simulated speech recognition delay
+    }
 
-            el.addEventListener('swipe-success', function (event) {
-                speechInputText.innerText = 'Swiped! Speech Input Fellows';
-                setTimeout(function () {
-                    el.setAttribute('speech-overlay', '');
-                    speechTrials = 0;
-                }, 1000);
-            });
-
-            el.addEventListener('touchstart', function(event){
-                clearTimeout(recognitionTimeout);
-                hideOverlay();
-            });
+    // Event listener for swipe success and speech command for the talkableButton
+    function handleSpeechSwipe() {
+        if (!speechInProgress) {
+            initializeCamera();
+            activateSpeechInput();
+            // Additional code for speech recognition
+            // Display overlay when speech command is recognized
+            showOverlay();
         }
+    }
+
+    talkableButton.addEventListener('click', handleSpeechSwipe);
+
+    // Event listener for swipe gestures only for the other buttons
+    swipeableButtons.forEach(function(button) {
+        button.addEventListener('click', function() {
+            // Additional code for swipe gesture
+            showOverlay();
+        });
     });
 
-    function showOverlay() {
-        overlay.setAttribute('visible', true);
-        setTimeout(function () {
-            hideOverlay();
-        }, 7000); // Hide overlay after 7 seconds
-    }
-
-    function hideOverlay() {
-        overlay.setAttribute('visible', false);
-    }
-
-    function showAllButtons() {
-        var buttons = document.querySelectorAll('.button');
-        buttons.forEach(function(button) {
-            button.setAttribute('visible', true);
-        });
-    }
+    // Rest of the code...
 });
