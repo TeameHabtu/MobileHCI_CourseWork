@@ -21,30 +21,34 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // Function to activate speech input interface
-    function activateSpeechInput() {
-        speechInProgress = true;
-        speechInputText.innerText = 'Waiting for speech...';
-        // Simulate speech recognition process
-        setTimeout(function() {
-            var recognized = Math.random() < 0.5; // Simulate recognition
-            if (recognized) {
+   function activateSpeechInput() {
+    speechInProgress = true;
+    speechInputText.innerText = 'Waiting for speech...';
+    // Simulate speech recognition process
+    setTimeout(function() {
+        var recognized = Math.random() < 0.5; // Simulate recognition
+        if (recognized) {
+            var command = ""; // Assuming the recognized speech command is stored in a variable named "command"
+            if (command === "walk time") {
                 speechInputText.innerText = 'Ok! Be ready';
-            } else {
-                speechTrials++;
-                if (speechTrials < 3) {
-                    speechInputText.innerText = 'Try again';
-                } else {
-                    speechInputText.innerText = 'No more trials allowed';
-                    // Reset speech input state after timeout
-                    setTimeout(function() {
-                        speechInProgress = false;
-                        speechTrials = 0;
-                        talkButton.addEventListener('click', handleSwipe);
-                    }, 3000);
-                }
             }
-        }, 2000); // Simulated speech recognition delay
-    }
+        } else {
+            speechTrials++;
+            if (speechTrials < 3) {
+                speechInputText.innerText = 'Try again';
+            } else {
+                speechInputText.innerText = 'No more trials allowed';
+                // Reset speech input state after timeout
+                setTimeout(function() {
+                    speechInProgress = false;
+                    speechTrials = 0;
+                    talkButton.addEventListener('click', handleSwipe);
+                }, 3000);
+            }
+        }
+    }, 2000); // Simulated speech recognition delay
+}
+
 
     // Event listener for swipe success and speech command for the talk button
     function handleSwipe() {
