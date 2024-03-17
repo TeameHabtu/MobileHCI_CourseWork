@@ -7,53 +7,78 @@
     <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
     <script src="https://cdn.rawgit.com/jeromeetienne/AR.js/2.0.8/aframe/build/aframe-ar.js"></script>
     <script src="https://rawgit.com/mayognaise/aframe-speech-command-component/master/dist/aframe-speech-command-component.min.js"></script>
-    <script src="script.js" defer></script> <!-- Link to JavaScript file -->
-    <!-- Link to CSS file -->
+    <style>
+        @keyframes buttonHover {
+            from { opacity: 1; }
+            to { opacity: 0.8; }
+        }
+
+        #speechInputText {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-size: 24px;
+            color: white;
+            z-index: 1000;
+        }
+    </style>
 </head>
+  
 <body>
     <div id="speechInputText"></div>
-     <a-scene id="arScene" embedded arjs="sourceType: webcam;" style="display: none;">
-        <!-- Swipeable Buttons -->
-        <!-- Buttons for which only overlay is displayed upon swipe gestures -->
-              
-            <img id="cook" src="https://cdn.glitch.global/c9accb86-951a-4534-b96f-84964f34a8d2/Cook.jpg?v=1708399021745">
+    <a-scene embedded arjs="sourceType: webcam;">
+        <a-assets>
+            <!-- Your image assets -->
+               <img id="cook" src="https://cdn.glitch.global/c9accb86-951a-4534-b96f-84964f34a8d2/Cook.jpg?v=1708399021745">
             <img id="call" src="https://cdn.glitch.global/2cd4ffad-ef10-4b90-82c1-0550f99b9dee/call.jpg?v=1708399047886">
+            <img id="emergency" src="https://cdn.glitch.global/2cd4ffad-ef10-4b90-82c1-0550f99b9dee/Emrgcycall.jpg?v=1708399025869">
+            <img id="walk" src="https://cdn.glitch.global/eeff0b26-9f30-428b-bcbd-920bbe394fa4/keepwalking.jpg?v=1708457031864">
             <img id="whrami" src="https://cdn.glitch.global/eeff0b26-9f30-428b-bcbd-920bbe394fa4/WhrAmI.jpg?v=1708399122257">
             <img id="door" src="https://cdn.glitch.global/a8ce429a-54d7-46cb-9b8d-755c39e1d6f6/door.jpg?v=1708610568058">
-            <img id="talk" src="https://cdn.glitch.global/eeff0b26-9f30-428b-bcbd-920bbe394fa4/keepwalking.jpg?v=1708457031864">
-            
 
-        <!-- Define buttons and overlays -->
-            <img id="overlay1" src="https://cdn.glitch.global/1a2d89b7-ad76-4d1a-ac6f-1b4938718edc/robotcook.jpg?v=1709860020039">
-            <img id="overlay2" src="https://cdn.glitch.global/1a2d89b7-ad76-4d1a-ac6f-1b4938718edc/callme.image.png?v=1709595354366">
-            <img id="overlay3" src="https://cdn.glitch.global/1a2d89b7-ad76-4d1a-ac6f-1b4938718edc/walk.jpg?v=1709595347673">
-            <img id="overlay4" src="https://cdn.glitch.global/1a2d89b7-ad76-4d1a-ac6f-1b4938718edc/opendoor.jpg?v=1709595339959">
-            <img id="ovrlay5" src="https://cdn.glitch.global/1a2d89b7-ad76-4d1a-ac6f-1b4938718edc/callme.image.png?v=1709595354366">
-            
+            <img id="overlay1" src="src: https://cdn.glitch.global/eeff0b26-9f30-428b-bcbd-920bbe394fa4/cookdisplay.png?v=1708454" style="display: none;">
+            <img id="overlay2" src=" https://cdn.glitch.global/eeff0b26-9f30-428b-bcbd-920bbe394fa4/callimage.png?v=17084565" style="display: none;">
+            <img id="overlay3" src=" https://cdn.glitch.global/eeff0b26-9f30-428b-bcbd-920bbe394fa4/emrgcycallimage.png?v=1708456989786" style="display: none;">
+            <img id="overlay4" src="https://cdn.glitch.global/eeff0b26-9f30-428b-bcbd-920bbe394fa4/WhrAmImage.jpg?v=170845" style="display: none;">
+            <img id="dooroverlay" src="https://cdn.glitch.global/eeff0b26-9f30-428b-bcbd-920bbe394fa4/doorimage.jpg?v=1708399102503" style="display: none;">
+            <img id="walkoverlay1" src="  https://cdn.glitch.global/cd61aead-1bac-43b8-8c65-50e2c36ee745/keepwalkingimage.jpg?v=1708457700747" style="display: none;">
+            <img id="walkoverlay2" src="https://cdn.glitch.global/eeff0b26-9f30-428b-bcbd-920bbe394fa4/stopwalkingimage.png?v=1708456799791" style="display: none;">
 
-        <a-entity class="button swipeable" position="1.5 3 -5" mixin="button-mixin" material="src: #cook" gesture-detector>
-            <a-text value="Swipe Down" position="0 -0.5 0" align="center"></a-text>
-        </a-entity>
-        <a-entity class="button swipeable" position="0 3 -5" mixin="button-mixin" material="src: #call" gesture-detector>
-            <a-text value="Swipe Down" position="0 -0.5 0" align="center"></a-text>
-        </a-entity>
-        <a-entity class="button swipeable" position="-1.5 -0.5 -5" mixin="button-mixin" material="src: #whrami" gesture-detector>
+        </a-assets>
+
+        <a-mixin id="button-mixin" geometry="primitive: plane"></a-mixin>
+
+        <!-- Button with speech input -->
+        <a-entity class="button swipeable" position="-1.5 -0.5 -5" mixin="button-mixin" material="src: #walk"
+                  speech-command="command: button place; action: trigger" gesture-detector speech-overlay>
             <a-text value="Swipe Right" position="0 -0.5 0" align="center"></a-text>
         </a-entity>
+
+        <!-- Swipeable Buttons with image display -->
         <a-entity class="button swipeable" position="-1.5 2 -5" mixin="button-mixin" material="src: #door" gesture-detector>
             <a-text value="Swipe Right" position="0 -0.5 0" align="center"></a-text>
         </a-entity>
 
-        <!-- Button with speech command, gesture detection, and overlay display -->
-        <a-entity id="walkingButton" class="button swipeable" position="-1.5 0.75 -5" mixin="button-mixin" material="src: #talk" speech-command="command: walk time; action: trigger" gesture-detector>
+        <a-entity class="button swipeable" position="1.5 3 -5" mixin="button-mixin" material="src: #cook" gesture-detector>
+            <a-text value="Swipe Down" position="0 -0.5 0" align="center"></a-text>
+        </a-entity>
+
+        <a-entity class="button swipeable" position="0 3 -5" mixin="button-mixin" material="src: #call" gesture-detector>
+            <a-text value="Swipe Down" position="0 -0.5 0" align="center"></a-text>
+        </a-entity>
+
+        <a-entity class="button swipeable" position="-1.5 0.75 -5" mixin="button-mixin" material="src: #whrami" gesture-detector>
             <a-text value="Swipe Right" position="0 -0.5 0" align="center"></a-text>
         </a-entity>
 
-        <!-- Overlay entity -->
         <a-entity id="overlay" position="0 0 -15" visible="false" geometry="primitive: plane; width: 5; height: 5"></a-entity>
-      
-        <!-- Sky entity -->
+
         <a-sky color="#518CC9"></a-sky>
     </a-scene>
+       <!-- JavaScript file -->
+    <script src="style.css"></script>
+      <!-- JavaScript file -->
+    <script src="script.js"></script>
+    
 </body>
 </html>
