@@ -29,21 +29,19 @@
     <a-scene embedded arjs="sourceType: webcam;">
         <a-assets>
             <!-- Your image assets -->
-               <img id="cook" src="https://cdn.glitch.global/c9accb86-951a-4534-b96f-84964f34a8d2/Cook.jpg?v=1708399021745">
+            <img id="cook" src="https://cdn.glitch.global/c9accb86-951a-4534-b96f-84964f34a8d2/Cook.jpg?v=1708399021745">
             <img id="call" src="https://cdn.glitch.global/2cd4ffad-ef10-4b90-82c1-0550f99b9dee/call.jpg?v=1708399047886">
-            <img id="emergency" src="https://cdn.glitch.global/2cd4ffad-ef10-4b90-82c1-0550f99b9dee/Emrgcycall.jpg?v=1708399025869">
-            <img id="walk" src="https://cdn.glitch.global/eeff0b26-9f30-428b-bcbd-920bbe394fa4/keepwalking.jpg?v=1708457031864">
-            <img id="whrami" src="https://cdn.glitch.global/eeff0b26-9f30-428b-bcbd-920bbe394fa4/WhrAmI.jpg?v=1708399122257">
             <img id="door" src="https://cdn.glitch.global/a8ce429a-54d7-46cb-9b8d-755c39e1d6f6/door.jpg?v=1708610568058">
-
+            <img id="whrami" src="https://cdn.glitch.global/eeff0b26-9f30-428b-bcbd-920bbe394fa4/WhrAmI.jpg?v=1708399122257">
+            <img id="walk" src="https://cdn.glitch.global/eeff0b26-9f30-428b-bcbd-920bbe394fa4/keepwalking.jpg?v=1708457031864">
+          
+             <!-- Your image for display -->
             <img id="overlay1" src="src: https://cdn.glitch.global/eeff0b26-9f30-428b-bcbd-920bbe394fa4/cookdisplay.png?v=1708454" style="display: none;">
             <img id="overlay2" src=" https://cdn.glitch.global/eeff0b26-9f30-428b-bcbd-920bbe394fa4/callimage.png?v=17084565" style="display: none;">
             <img id="overlay3" src=" https://cdn.glitch.global/eeff0b26-9f30-428b-bcbd-920bbe394fa4/emrgcycallimage.png?v=1708456989786" style="display: none;">
             <img id="overlay4" src="https://cdn.glitch.global/eeff0b26-9f30-428b-bcbd-920bbe394fa4/WhrAmImage.jpg?v=170845" style="display: none;">
-            <img id="dooroverlay" src="https://cdn.glitch.global/eeff0b26-9f30-428b-bcbd-920bbe394fa4/doorimage.jpg?v=1708399102503" style="display: none;">
-            <img id="walkoverlay1" src="  https://cdn.glitch.global/cd61aead-1bac-43b8-8c65-50e2c36ee745/keepwalkingimage.jpg?v=1708457700747" style="display: none;">
-            <img id="walkoverlay2" src="https://cdn.glitch.global/eeff0b26-9f30-428b-bcbd-920bbe394fa4/stopwalkingimage.png?v=1708456799791" style="display: none;">
-
+            <img id="overlay5" src="https://cdn.glitch.global/eeff0b26-9f30-428b-bcbd-920bbe394fa4/doorimage.jpg?v=1708399102503" style="display: none;">
+            
         </a-assets>
 
         <a-mixin id="button-mixin" geometry="primitive: plane"></a-mixin>
