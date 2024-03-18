@@ -90,5 +90,15 @@ document.addEventListener('DOMContentLoaded', function () {
                         }
                     });
                 }
-            });
-        });
+            })
+ function showOverlay() {
+        overlay.setAttribute('visible', true);
+        setTimeout(function () {
+            hideOverlay();
+        }, 5000);
+    }
+
+    function hideOverlay() {
+        overlay.setAttribute('visible', false);
+    }
+});
