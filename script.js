@@ -38,15 +38,17 @@ document.addEventListener('DOMContentLoaded', function () {
                         this.swipeSequence.push('up');
                     }
                 }
-                if (this.swipeSequence.join(',') === 'right,right,right,down,down') {
-                    this.el.emit('konami-code');
-                    this.swipeSequence = [];
+                // Check for Konami code sequence
+                if (this.swipeSequence.join(',') === 'right,right,right,right,up,down') {
+                    // Activate speech input for the talk button
+                    var talkButton = document.getElementById('talk');
+                    talkButton.setAttribute('speech-command', 'command: call a friend; action: trigger');
                 }
             }
         }
     });
 
-    AFRAME.registerComponent('speech-overlay', {
+    AFRAME.registerComponent('action-feedback', {
         init: function () {
             var el = this.el;
 
@@ -70,20 +72,14 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
-    function showOverlay(buttonId) {
-    var overlayId = "overlay" + buttonId.substr(-1); // Extract the number from buttonId
-    var overlayElement = document.getElementById(overlayId);
-    if (overlayElement) {
-        overlayElement.style.display = "block"; // Show the overlay image
+    function showOverlay() {
+        overlay.setAttribute('visible', true);
         setTimeout(function () {
-            hideOverlay(overlayId); // Hide the overlay after a certain duration
+            hideOverlay();
         }, 5000);
     }
-}
-  function hideOverlay(overlayId) {
-    var overlayElement = document.getElementById(overlayId);
-    if (overlayElement) {
-        overlayElement.style.display = "none"; // Hide the overlay
+
+    function hideOverlay() {
+        overlay.setAttribute('visible', false);
     }
-}
 });
