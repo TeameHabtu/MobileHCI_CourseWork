@@ -70,14 +70,20 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
-    function showOverlay() {
-        overlay.setAttribute('visible', true);
-        setTimeout(function () {
-            hideOverlay();
-        }, 5000);
+    function showOverlay(buttonId) {
+        var imageElement = document.getElementById(buttonId);
+        if (imageElement) {
+            imageElement.style.display = "block"; // Show the image
+            setTimeout(function () {
+                hideOverlay(buttonId); // Hide the image after a certain duration
+            }, 5000);
+        }
     }
 
-    function hideOverlay() {
-        overlay.setAttribute('visible', false);
+    function hideOverlay(buttonId) {
+        var imageElement = document.getElementById(buttonId);
+        if (imageElement) {
+            imageElement.style.display = "none"; // Hide the image
+        }
     }
 });
