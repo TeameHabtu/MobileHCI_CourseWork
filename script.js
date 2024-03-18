@@ -38,7 +38,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         this.swipeSequence.push('up');
                     }
                 }
-                if (this.swipeSequence.join(',') === 'right,right,right,right,up,down') {
+                if (this.swipeSequence.join(',') === 'right,right,right,down,down') {
                     this.el.emit('konami-code');
                     this.swipeSequence = [];
                 }
@@ -71,19 +71,19 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     function showOverlay(buttonId) {
-        var imageElement = document.getElementById(buttonId);
-        if (imageElement) {
-            imageElement.style.display = "block"; // Show the image
-            setTimeout(function () {
-                hideOverlay(buttonId); // Hide the image after a certain duration
-            }, 5000);
-        }
+    var overlayId = "overlay" + buttonId.substr(-1); // Extract the number from buttonId
+    var overlayElement = document.getElementById(overlayId);
+    if (overlayElement) {
+        overlayElement.style.display = "block"; // Show the overlay image
+        setTimeout(function () {
+            hideOverlay(overlayId); // Hide the overlay after a certain duration
+        }, 5000);
     }
-
-    function hideOverlay(buttonId) {
-        var imageElement = document.getElementById(buttonId);
-        if (imageElement) {
-            imageElement.style.display = "none"; // Hide the image
-        }
+}
+  function hideOverlay(overlayId) {
+    var overlayElement = document.getElementById(overlayId);
+    if (overlayElement) {
+        overlayElement.style.display = "none"; // Hide the overlay
     }
+}
 });
