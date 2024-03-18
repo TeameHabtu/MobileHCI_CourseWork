@@ -40,9 +40,17 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
                 // Check for Konami code sequence
                 if (this.swipeSequence.join(',') === 'right,right,right,right,up,down') {
-                    // Activate speech input for the talk button
-                    var talkButton = document.getElementById('talk');
-                    talkButton.setAttribute('speech-command', 'command: call a friend; action: trigger');
+                    this.el.emit('konami-code');
+                    this.swipeSequence = [];
+                    // Show overlay based on button's overlay-id attribute
+                    var overlayId = this.el.getAttribute('overlay-id');
+                    var overlayImage = document.getElementById(overlayId);
+                    if (overlayImage) {
+                        overlayImage.setAttribute('visible', true);
+                        setTimeout(function () {
+                            overlayImage.setAttribute('visible', false);
+                        }, 5000);
+                    }
                 }
             }
         }
